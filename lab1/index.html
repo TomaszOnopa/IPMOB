@@ -1,5 +1,14 @@
 <!DOCTYPE html>
+
 <html>
+    <style>
+        input:invalid {
+        background-color: ivory;
+        border: none;
+        outline: 2px solid red;
+        border-radius: 5px;
+    }
+    </style>
     <body>
         <input type="text" id="firstname" placeholder="Imie">
         <br>
@@ -13,7 +22,7 @@
         <br>
         <input type="text" id="www" placeholder="Strona www">
         <br>
-        <input type="tel" id="phone" placeholder="Numer telefonu">
+        <input type="tel" id="phone" placeholder="Numer telefonu" pattern="[0-9]{9}">
         <br>
         <button id="generate" onclick="generate()">Generuj</button>
 
