@@ -24,6 +24,26 @@
         <br>
         <input type="tel" id="phone" placeholder="numer telefonu" required pattern="[0-9]{9}">
         <br>
-        <button id="generate">Generuj</button>
+        <button id="generate" onclick="generate()">Generuj</button>
     </body>
+
+    <script>
+        function generate() {
+            const ipv4 = Array("192.168.0.1", "0.0.0.0", "192.168.64.2", "255.255.255.0", "10.10.10.1")
+            const webpage = Array("https://www.jan.pl", "https://www.nowak.pl", "https://www.dff.pl", "https://www.janusz.pl", "https://www.tomasz.pl")
+            const email = Array("jan@example.com", "nowak@example.com", "dff@example.com", "jm@example.com", "tomasz@example.com")
+            const winpath1 = Array()
+            const winpath2 = Array()
+            const linuxpath = Array()
+            const phone = Array("123456789", "125556789", "199999999", "186123099", "000777999")
+
+            document.getElementById("firstname").value = names[Math.floor(Math.random()*names.length)];
+            document.getElementById("lastname").value = surnames[Math.floor(Math.random()*surnames.length)];
+            document.getElementById("email").value = emails[Math.floor(Math.random()*emails.length)];
+            document.getElementById("zip").value = zip[Math.floor(Math.random()*zip.length)];
+            document.getElementById("nip").value = nip[Math.floor(Math.random()*nip.length)];
+            document.getElementById("www").value = www[Math.floor(Math.random()*www.length)];
+            document.getElementById("phone").value = tel[Math.floor(Math.random()*tel.length)];
+        }
+    </script>
 </html>
