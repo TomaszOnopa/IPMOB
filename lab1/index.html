@@ -28,13 +28,21 @@
 
         <script>
             function generate() {
-                document.getElementById("firstname").value = "Jan";
-                document.getElementById("lastname").value = "Wojcik";
-                document.getElementById("email").value = "jan@example.com";
-                document.getElementById("zip").value = "11-999";
-                document.getElementById("nip").value = "1234321237";
-                document.getElementById("www").value = "jan.pl";
-                document.getElementById("phone").value = "123456789";
+                const names = Array("Jan", "Anna", "Tadeusz", "Szymon", "Tomasz")
+                const surnames = Array("Wojcik", "Wasik", "Nowak", "Mazur", "Krawczyk")
+                const emails = Array("jan@example.com", "nowak@example.com", "dff@example.com", "jm@example.com", "tomasz@example.com")
+                const zip = Array("11-999", "22-999", "11-111", "11-123", "34-963")
+                const nip = Array("123-111-12-12", "123-222-12-00", "123-432-12-37", "123-333-12-88", "123-444-12-99")
+                const www = Array("https://www.jan.pl", "https://www.nowak.pl", "https://www.dff.pl", "https://www.janusz.pl", "https://www.tomasz.pl")
+                const tel = Array("123456789", "125556789", "199999999", "186123099", "000777999")
+
+                document.getElementById("firstname").value = names[Math.floor(Math.random()*names.length)];
+                document.getElementById("lastname").value = surnames[Math.floor(Math.random()*surnames.length)];
+                document.getElementById("email").value = emails[Math.floor(Math.random()*emails.length)];
+                document.getElementById("zip").value = zip[Math.floor(Math.random()*zip.length)];
+                document.getElementById("nip").value = nip[Math.floor(Math.random()*nip.length)];
+                document.getElementById("www").value = www[Math.floor(Math.random()*www.length)];
+                document.getElementById("phone").value = tel[Math.floor(Math.random()*tel.length)];
             }
         </script>
     </body>
