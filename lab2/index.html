@@ -10,7 +10,7 @@
     }
     </style>
     <body>
-        <input type="text" id="ipv4" placeholder="adres ipv4" required>
+        <input type="text" id="ipv4" placeholder="adres ipv4" required pattern="((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$">
         <br>
         <input type="url" id="webpage" placeholder="strona www" required>
         <br>
@@ -22,7 +22,7 @@
         <br>
         <input type="text" id="linuxpath" placeholder="linux path" required>
         <br>
-        <input type="tel" id="phone" placeholder="numer telefonu" required>
+        <input type="tel" id="phone" placeholder="numer telefonu" required pattern="[0-9]{9}">
         <br>
         <button id="generate">Generuj</button>
     </body>
