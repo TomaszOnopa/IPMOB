@@ -1,5 +1,49 @@
 <!DOCTYPE html>
 
 <html>
-    
+    <style>
+        input:invalid {
+        background-color: ivory;
+        border: none;
+        outline: 2px solid red;
+        border-radius: 5px;
+    }
+    </style>
+    <body>
+        <input type="text" id="ipv4" placeholder="adres ipv4" required pattern="((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$">
+        <br>
+        <input type="url" id="webpage" placeholder="strona www" required>
+        <br>
+        <input type="email" id="email" placeholder="email" required>
+        <br>
+        <input type="text" id="winpath1" placeholder="scieżka windows lowercase" required pattern="^([a-z]:\\)(windows|winnt|win|dos|msdos)(\\[a-z0-9]+){0,}$">
+        <br>
+        <input type="text" id="winpath2" placeholder="ścieżka windows allcase" required>
+        <br>
+        <input type="text" id="linuxpath" placeholder="linux path" required pattern="^(\/etc)(\/[A-Za-z0-9]+){0,}$">
+        <br>
+        <input type="tel" id="phone" placeholder="numer telefonu" required pattern="[0-9]{9}">
+        <br>
+        <button id="generate" onclick="generate()">Generuj</button>
+    </body>
+
+    <script>
+        function generate() {
+            const ipv4 = Array("192.168.0.1", "0.0.0.0", "192.168.64.2", "255.255.255.0", "10.10.10.1")
+            const webpage = Array("https://www.jan.pl", "https://www.nowak.pl", "https://www.dff.pl", "https://www.janusz.pl", "https://www.tomasz.pl")
+            const email = Array("jan@example.com", "nowak@example.com", "dff@example.com", "jm@example.com", "tomasz@example.com")
+            const winpath1 = Array("c:\\windows\\temp", "d:\\msdos", "e:\\dos", "c:\\winnt\\temp", "c:\\win\\temp")
+            const winpath2 = Array("c:\\WiNdOwS\\temp", "d:\\msDos", "e:\\DOS", "C:\\winnt\\temp", "c:\\win\\TemP")
+            const linuxpath = Array("/etc/passwd", "/etc/hosts", "/etc/a", "/etc/b", "/etc/c")
+            const phone = Array("123456789", "125556789", "199999999", "186123099", "000777999")
+
+            document.getElementById("ipv4").value = ipv4[Math.floor(Math.random()*ipv4.length)];
+            document.getElementById("webpage").value = webpage[Math.floor(Math.random()*webpage.length)];
+            document.getElementById("email").value = email[Math.floor(Math.random()*email.length)];
+            document.getElementById("winpath1").value = winpath1[Math.floor(Math.random()*winpath1.length)];
+            document.getElementById("winpath2").value = winpath2[Math.floor(Math.random()*winpath2.length)];
+            document.getElementById("linuxpath").value = linuxpath[Math.floor(Math.random()*linuxpath.length)];
+            document.getElementById("phone").value = phone[Math.floor(Math.random()*phone.length)];
+        }
+    </script>
 </html>
