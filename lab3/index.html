@@ -93,7 +93,17 @@
             let table = document.getElementById("clients_data_table");
             let row = table.insertRow(-1);
             let cell1 = row.insertCell(0);
+            let cell2 = row.insertCell(1);
+            let cell3 = row.insertCell(2);
+            let cell4 = row.insertCell(3);
+            let cell5 = row.insertCell(4);
+            let cell6 = row.insertCell(5);
             cell1.innerHTML = namesList[namesList.length - 1];
+            cell2.innerHTML = surnamesList[surnamesList.length - 1];
+            cell3.innerHTML = emailList[emailList.length - 1];
+            cell4.innerHTML = zipList[zipList.length - 1];
+            cell5.innerHTML = nipList[nipList.length - 1];
+            cell6.innerHTML = phoneList[phoneList.length - 1];
         }
     </script>
 </html>
