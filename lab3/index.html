@@ -33,11 +33,16 @@
         <input type="tel" id="phone" placeholder="numer telefonu" required pattern="[0-9]{9}">
         <br>
         <button id="generate" onclick="generate()">Generuj</button>
-        <button id="addToTable" onclick="addToTable()">Dodaj</button>
+        <button id="add_data" onclick="addToTable()">Dodaj</button>
     </body>
 
     <script>
-        
+        let namesList = Array()
+        let surnamesList = Array()
+        let emailList = Array()
+        let zipList = Array()
+        let nipList = Array()
+        let phoneList = Array()
 
         function generate() {
             const names = Array("Jan", "Anna", "Tadeusz", "Szymon", "Tomasz")
@@ -66,7 +71,12 @@
         }
 
         function addToTable() {
-            
+            namesList.push(document.getElementById("firstname").value);
+            surnamesList.push(document.getElementById("lastname").value);
+            emailList.push(document.getElementById("email").value);
+            zipList.push(document.getElementById("zip").value);
+            nipList.push(document.getElementById("nip").value);
+            phoneList.push(document.getElementById("phone").value);
         }
     </script>
 </html>
