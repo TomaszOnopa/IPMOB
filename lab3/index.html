@@ -10,6 +10,14 @@
     }
     </style>
     <body>
+        <input type="text" id="firstname" placeholder="Imie" required pattern="[A-Za-z]{2,}">
+        <br>
+        <input type="text" id="lastname" placeholder="Nazwisko" required pattern="[A-Za-z]{2,}">
+        <br>
+        <input type="text" id="zip" placeholder="Kod pocztowy" required pattern="[0-9]{2}-[0-9]{3}">
+        <br>
+        <input type="text" id="nip" placeholder="Numer Nip" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}">
+        <br>
         <input type="text" id="ipv4" placeholder="adres ipv4" required pattern="((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$">
         <br>
         <input type="url" id="webpage" placeholder="strona www" required>
@@ -29,6 +37,10 @@
 
     <script>
         function generate() {
+            const names = Array("Jan", "Anna", "Tadeusz", "Szymon", "Tomasz")
+            const surnames = Array("Wojcik", "Wasik", "Nowak", "Mazur", "Krawczyk")
+            const zip = Array("11-999", "22-999", "11-111", "11-123", "34-963")
+            const nip = Array("123-111-12-12", "123-222-12-00", "123-432-12-37", "123-333-12-88", "123-444-12-99")
             const ipv4 = Array("192.168.0.1", "0.0.0.0", "192.168.64.2", "255.255.255.0", "10.10.10.1")
             const webpage = Array("https://www.jan.pl", "https://www.nowak.pl", "https://www.dff.pl", "https://www.janusz.pl", "https://www.tomasz.pl")
             const email = Array("jan@example.com", "nowak@example.com", "dff@example.com", "jm@example.com", "tomasz@example.com")
@@ -37,6 +49,10 @@
             const linuxpath = Array("/etc/passwd", "/etc/hosts", "/etc/a", "/etc/b", "/etc/c")
             const phone = Array("123456789", "125556789", "199999999", "186123099", "000777999")
 
+            document.getElementById("firstname").value = names[Math.floor(Math.random()*names.length)];
+            document.getElementById("lastname").value = surnames[Math.floor(Math.random()*surnames.length)];
+            document.getElementById("zip").value = zip[Math.floor(Math.random()*zip.length)];
+            document.getElementById("nip").value = nip[Math.floor(Math.random()*nip.length)];
             document.getElementById("ipv4").value = ipv4[Math.floor(Math.random()*ipv4.length)];
             document.getElementById("webpage").value = webpage[Math.floor(Math.random()*webpage.length)];
             document.getElementById("email").value = email[Math.floor(Math.random()*email.length)];
