@@ -33,9 +33,12 @@
         <input type="tel" id="phone" placeholder="numer telefonu" required pattern="[0-9]{9}">
         <br>
         <button id="generate" onclick="generate()">Generuj</button>
+        <button id="addToTable" onclick="addToTable()">Dodaj</button>
     </body>
 
     <script>
+        
+
         function generate() {
             const names = Array("Jan", "Anna", "Tadeusz", "Szymon", "Tomasz")
             const surnames = Array("Wojcik", "Wasik", "Nowak", "Mazur", "Krawczyk")
@@ -60,6 +63,10 @@
             document.getElementById("winpath2").value = winpath2[Math.floor(Math.random()*winpath2.length)];
             document.getElementById("linuxpath").value = linuxpath[Math.floor(Math.random()*linuxpath.length)];
             document.getElementById("phone").value = phone[Math.floor(Math.random()*phone.length)];
+        }
+
+        function addToTable() {
+            
         }
     </script>
 </html>
