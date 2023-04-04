@@ -92,11 +92,11 @@
 
             open.onsuccess = function() {
                 var db = open.result;
-                var tx = db.transaction("Table1", "readwrite");
+                var tx = db.transaction("Table1", "write");
                 var store = tx.objectStore("Table1");
 
                 for(let i = 0; i < namesList.length; i++) {
-                    store.put({id: 1, name: namesList[i], surname: surnamesList[i], email: emailList[i], zip: zipList[i], nip: nipList[i], tel: phoneList[i]});
+                    store.put({id: i+1, name: namesList[i], surname: surnamesList[i], email: emailList[i], zip: zipList[i], nip: nipList[i], tel: phoneList[i]});
                 }
 
                 tx.oncomplete = function() {
@@ -119,13 +119,15 @@
 
             open.onsuccess = function() {
                 var db = open.result;
-                var tx = db.transaction("Table1", "readwrite");
+                var tx = db.transaction("Table1", "read");
                 var store = tx.objectStore("Table1");
 
                 const countRequest = store.count();
-                countRequest.onsuccess = () => {
-                    for (let i = 0; i < countRequest.result; i++) {
-                        let table = document.getElementById("clients_data_table");
+                let table = document.getElementById("clients_data_table");
+                
+                for (let i = 0; i < 100; i++) {
+                    var getData = store.get(i+1);
+                    getData.onsuccess = function() {
                         let row = table.insertRow(-1);
                         let cell1 = row.insertCell(0);
                         let cell2 = row.insertCell(1);
@@ -134,18 +136,19 @@
                         let cell5 = row.insertCell(4);
                         let cell6 = row.insertCell(5);
 
-                        var getData = store.get(i+1);
-                        getData.onsuccess = function() {
-                            alert(getData.result.name);
-                            cell1.innerHTML = getData.result.name;
-                            cell2.innerHTML = getData.result.surname;
-                            cell3.innerHTML = getData.result.email;
-                            cell4.innerHTML = getData.result.zip;
-                            cell5.innerHTML = getData.result.nip;
-                            cell6.innerHTML = getData.result.tel;
-                        };
+                        alert(getData.result.name);
+                        cell1.innerHTML = getData.result.name;
+                        cell2.innerHTML = getData.result.surname;
+                        cell3.innerHTML = getData.result.email;
+                        cell4.innerHTML = getData.result.zip;
+                        cell5.innerHTML = getData.result.nip;
+                        cell6.innerHTML = getData.result.tel;
+                    };
+                    getData.onerror = function() {
+                        db.close();
+                        return
                     }
-                };
+                }
 
                 tx.oncomplete = function() {
                     db.close();
