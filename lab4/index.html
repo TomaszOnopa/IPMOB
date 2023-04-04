@@ -96,6 +96,7 @@
                 var store = tx.objectStore("Table1");
 
                 store.put({id: 1, name: "Tomasz", surname: "Onopa", email: "t@example.com", zip: "44-888", nip: "5465464345", tel: "123456789", age: 42});
+                store.put({id: 1, name: "Adam", surname: "Onopa", email: "t@example.com", zip: "44-888", nip: "5465464345", tel: "123456789", age: 42});
 
                 tx.oncomplete = function() {
                     db.close();
@@ -104,6 +105,10 @@
         }
 
         function loadData() {
+            for(var i = document.getElementById("clients_data_table").rows.length; i > 1;i--){
+                document.getElementById("clients_data_table").deleteRow(i -1);
+            }
+
             var open = indexedDB.open("DB1", 1);
 
             open.onupgradeneeded = function() {
@@ -116,10 +121,28 @@
                 var tx = db.transaction("Table1", "readwrite");
                 var store = tx.objectStore("Table1");
 
-                var getData = store.get(1);
+                const countRequest = store.count();
+                countRequest.onsuccess = () => {
+                    for (let i = 0; i < countRequest.result; i++) {
+                        let table = document.getElementById("clients_data_table");
+                        let row = table.insertRow(-1);
+                        let cell1 = row.insertCell(0);
+                        let cell2 = row.insertCell(1);
+                        let cell3 = row.insertCell(2);
+                        let cell4 = row.insertCell(3);
+                        let cell5 = row.insertCell(4);
+                        let cell6 = row.insertCell(5);
 
-                getData.onsuccess = function() {
-                    alert(getData.result.zip);
+                        var getData = store.get(i);
+                        getData.onsuccess = function() {
+                            cell1.innerHTML = getData.result.name;
+                            cell2.innerHTML = getData.result.surname;
+                            cell3.innerHTML = getData.result.email;
+                            cell4.innerHTML = getData.result.zip;
+                            cell5.innerHTML = getData.result.nip;
+                            cell6.innerHTML = getData.result.tel;
+                        };
+                    }
                 };
 
                 tx.oncomplete = function() {
