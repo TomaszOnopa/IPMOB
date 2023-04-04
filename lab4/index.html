@@ -95,8 +95,9 @@
                 var tx = db.transaction("Table1", "readwrite");
                 var store = tx.objectStore("Table1");
 
-                store.put({id: 1, name: "Tomasz", surname: "Onopa", email: "t@example.com", zip: "44-888", nip: "5465464345", tel: "123456789", age: 42});
-                store.put({id: 1, name: "Adam", surname: "Onopa", email: "t@example.com", zip: "44-888", nip: "5465464345", tel: "123456789", age: 42});
+                for(let i = 0; i < namesList.length; i++) {
+                    store.put({id: 1, name: namesList[i], surname: surnamesList[i], email: emailList[i], zip: zipList[i], nip: nipList[i], tel: phoneList[i]});
+                }
 
                 tx.oncomplete = function() {
                     db.close();
@@ -133,8 +134,9 @@
                         let cell5 = row.insertCell(4);
                         let cell6 = row.insertCell(5);
 
-                        var getData = store.get(i);
+                        var getData = store.get(i+1);
                         getData.onsuccess = function() {
+                            alert(getData.result.name);
                             cell1.innerHTML = getData.result.name;
                             cell2.innerHTML = getData.result.surname;
                             cell3.innerHTML = getData.result.email;
