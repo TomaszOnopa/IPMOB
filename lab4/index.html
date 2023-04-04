@@ -53,7 +53,7 @@
         <div>
             <button id="generate" onclick="generate()">Generuj</button>
             <button id="add_data" onclick="addToTable()">Dodaj</button>
-            <button id="save_data">Zapisz</button>
+            <button id="save_data" onclick="saveData()">Zapisz</button>
             <button id="load_data">Wczytaj</button>
         </div>
         
@@ -73,6 +73,8 @@
     </body>
 
     <script>
+        var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+        
         let namesList = Array()
         let surnamesList = Array()
         let emailList = Array()
@@ -80,14 +82,29 @@
         let nipList = Array()
         let phoneList = Array()
 
-        var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
-        var open = indexedDB.open("DB1", 1);
+        function saveData() {
+            var open = indexedDB.open("DB1", 1);
 
-        open.onupgradeneeded = function() {
-            var db = open.result;
-            var store = db.createObjectStore("Table1", {keyPath: "id"});
-        };
+            open.onupgradeneeded = function() {
+                var db = open.result;
+                var store = db.createObjectStore("Table1", {keyPath: "id"});
+            };
 
+            open.onsuccess = function() {
+                var db = open.result;
+                var tx = db.transaction("Table1", "readwrite");
+                var store = tx.objectStore("Table1");
+
+                store.put({id: 1, name: "Tomasz", surname: "Onopa", email: "t@example.com", zip: "44-888", nip: "5465464345", tel: "123456789", age: 42});
+
+                // Close the db when the transaction is done
+                tx.oncomplete = function() {
+                    db.close();
+                };
+            }
+        }
+
+        
 
         function generate() {
             const names = Array("Jan", "Anna", "Tadeusz", "Szymon", "Tomasz")
