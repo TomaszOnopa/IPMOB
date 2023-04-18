@@ -158,6 +158,8 @@
         }
 
         function saveData(){
+            clearDBData("clients");
+
             const table = document.getElementById("clients_data_table");
             for (let i = 0; i < namesList.length; i++) {
                 
@@ -206,6 +208,12 @@
                     phoneCell.innerText = item.phone;
                 });
             };
+        }
+
+        function clearDBData(storeName) {
+            const transaction = db.transaction(storeName, "readwrite");
+            const objectStore = transaction.objectStore(storeName);
+            const objectStoreRequest = objectStore.clear();
         }
     </script>
 </html>
