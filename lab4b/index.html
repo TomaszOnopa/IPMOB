@@ -132,29 +132,7 @@
 
 
         
-        function saveData() {
-            var open = indexedDB.open("DB1", 1);
-
-            open.onupgradeneeded = function() {
-                var db = open.result;
-                var store = db.createObjectStore("Table1", {keyPath: "id"});
-            };
-
-            open.onsuccess = function() {
-                var db = open.result;
-                var tx = db.transaction("Table1", "write");
-                var store = tx.objectStore("Table1");
-
-                
-                for(let i = 0; i < namesList.length; i++) {
-                    store.put({id: i+1, name: namesList[i], surname: surnamesList[i], email: emailList[i], zip: zipList[i], nip: nipList[i], tel: phoneList[i]});
-                }
-
-                tx.oncomplete = function() {
-                    db.close();
-                };
-            }
-        }
+        
 
         let db;
         let request = indexedDB.open('DB1', 911);
@@ -178,6 +156,26 @@
         request.onerror = function(event) {
             console.log(event.target.error);
         }
+
+        function saveData(){
+            const table = document.getElementById("clients_data_table");
+            for (let i = 1; i < namesList.length; i++) {
+                
+                let transaction = db.transaction(['clients'], 'readwrite');
+                let store = transaction.objectStore('clients');
+
+
+                let client = {
+                    firstname: namesList[i],
+                    lastname: surnamesList[i],
+                    email: emailList[i],
+                    zip: zipList[i],
+                    nip: nipList[i],
+                    phone: phoneList[i],
+                };
+                let request = store.add(client);
+            }
+        };
 
         // function loadData() {
         //     for(var i = document.getElementById("clients_data_table").rows.length; i > 1;i--){
@@ -221,6 +219,30 @@
         //                 db.close();
         //                 return
         //             }
+        //         }
+
+        //         tx.oncomplete = function() {
+        //             db.close();
+        //         };
+        //     }
+        // }
+
+        // function saveData() {
+        //     var open = indexedDB.open("DB1", 1);
+
+        //     open.onupgradeneeded = function() {
+        //         var db = open.result;
+        //         var store = db.createObjectStore("Table1", {keyPath: "id"});
+        //     };
+
+        //     open.onsuccess = function() {
+        //         var db = open.result;
+        //         var tx = db.transaction("Table1", "write");
+        //         var store = tx.objectStore("Table1");
+
+                
+        //         for(let i = 0; i < namesList.length; i++) {
+        //             store.put({id: i+1, name: namesList[i], surname: surnamesList[i], email: emailList[i], zip: zipList[i], nip: nipList[i], tel: phoneList[i]});
         //         }
 
         //         tx.oncomplete = function() {
