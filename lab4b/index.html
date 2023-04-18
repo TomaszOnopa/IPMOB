@@ -73,88 +73,12 @@
     </body>
 
     <script>
-        var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
-        
         let namesList = Array()
         let surnamesList = Array()
         let emailList = Array()
         let zipList = Array()
         let nipList = Array()
         let phoneList = Array()
-
-        function saveData() {
-            var open = indexedDB.open("DB1", 1);
-
-            open.onupgradeneeded = function() {
-                var db = open.result;
-                var store = db.createObjectStore("Table1", {keyPath: "id"});
-            };
-
-            open.onsuccess = function() {
-                var db = open.result;
-                var tx = db.transaction("Table1", "write");
-                var store = tx.objectStore("Table1");
-
-                
-                for(let i = 0; i < namesList.length; i++) {
-                    store.put({id: i+1, name: namesList[i], surname: surnamesList[i], email: emailList[i], zip: zipList[i], nip: nipList[i], tel: phoneList[i]});
-                }
-
-                tx.oncomplete = function() {
-                    db.close();
-                };
-            }
-        }
-
-        function loadData() {
-            for(var i = document.getElementById("clients_data_table").rows.length; i > 1;i--){
-                document.getElementById("clients_data_table").deleteRow(i -1);
-            }
-
-            var open = indexedDB.open("DB1", 1);
-
-            open.onupgradeneeded = function() {
-                var db = open.result;
-                var store = db.createObjectStore("Table1", {keyPath: "id"});
-            };
-
-            open.onsuccess = function() {
-                var db = open.result;
-                var tx = db.transaction("Table1", "read");
-                var store = tx.objectStore("Table1");
-
-                let table = document.getElementById("clients_data_table");
-                
-                for (let i = 0; i < 100; i++) {
-                    var getData = store.get(i+1);
-                    getData.onsuccess = function() {
-                        let row = table.insertRow(-1);
-                        let cell1 = row.insertCell(0);
-                        let cell2 = row.insertCell(1);
-                        let cell3 = row.insertCell(2);
-                        let cell4 = row.insertCell(3);
-                        let cell5 = row.insertCell(4);
-                        let cell6 = row.insertCell(5);
-
-                        alert(getData.result.name);
-                        cell1.innerHTML = getData.result.name;
-                        cell2.innerHTML = getData.result.surname;
-                        cell3.innerHTML = getData.result.email;
-                        cell4.innerHTML = getData.result.zip;
-                        cell5.innerHTML = getData.result.nip;
-                        cell6.innerHTML = getData.result.tel;
-                    };
-                    getData.onerror = function() {
-                        db.close();
-                        return
-                    }
-                }
-
-                tx.oncomplete = function() {
-                    db.close();
-                };
-            }
-        }
 
         function generate() {
             const names = Array("Jan", "Anna", "Tadeusz", "Szymon", "Tomasz")
@@ -205,5 +129,104 @@
             cell5.innerHTML = nipList[nipList.length - 1];
             cell6.innerHTML = phoneList[phoneList.length - 1];
         }
+
+
+        
+        function saveData() {
+            var open = indexedDB.open("DB1", 1);
+
+            open.onupgradeneeded = function() {
+                var db = open.result;
+                var store = db.createObjectStore("Table1", {keyPath: "id"});
+            };
+
+            open.onsuccess = function() {
+                var db = open.result;
+                var tx = db.transaction("Table1", "write");
+                var store = tx.objectStore("Table1");
+
+                
+                for(let i = 0; i < namesList.length; i++) {
+                    store.put({id: i+1, name: namesList[i], surname: surnamesList[i], email: emailList[i], zip: zipList[i], nip: nipList[i], tel: phoneList[i]});
+                }
+
+                tx.oncomplete = function() {
+                    db.close();
+                };
+            }
+        }
+
+        let db;
+        let request = indexedDB.open('DB1', 911);
+
+        request.onupgradeneeded = (event) => {
+            let db = event.target.result;
+            let store = db.createObjectStore('clients', { keyPath: 'id', autoIncrement:true });
+            store.createIndex('firstname', 'firstname', { unique: false });
+            store.createIndex('lastname', 'lastname', { unique: false });
+            store.createIndex('email', 'email', { unique: false });
+            store.createIndex('zip', 'zip', { unique: false });
+            store.createIndex('nip', 'nip', { unique: false });
+            store.createIndex('phone', 'phone', { unique: false });
+            console.log("Tworzenie db");
+        };
+
+        request.onsuccess = function(event) {
+            db = event.target.result;
+            console.log("Sukces");
+        };
+        request.onerror = function(event) {
+            console.log(event.target.error);
+        }
+
+        // function loadData() {
+        //     for(var i = document.getElementById("clients_data_table").rows.length; i > 1;i--){
+        //         document.getElementById("clients_data_table").deleteRow(i -1);
+        //     }
+
+        //     var open = indexedDB.open("DB1", 1);
+
+        //     open.onupgradeneeded = function() {
+        //         var db = open.result;
+        //         var store = db.createObjectStore("Table1", {keyPath: "id"});
+        //     };
+
+        //     open.onsuccess = function() {
+        //         var db = open.result;
+        //         var tx = db.transaction("Table1", "read");
+        //         var store = tx.objectStore("Table1");
+
+        //         let table = document.getElementById("clients_data_table");
+                
+        //         for (let i = 0; i < 100; i++) {
+        //             var getData = store.get(i+1);
+        //             getData.onsuccess = function() {
+        //                 let row = table.insertRow(-1);
+        //                 let cell1 = row.insertCell(0);
+        //                 let cell2 = row.insertCell(1);
+        //                 let cell3 = row.insertCell(2);
+        //                 let cell4 = row.insertCell(3);
+        //                 let cell5 = row.insertCell(4);
+        //                 let cell6 = row.insertCell(5);
+
+        //                 alert(getData.result.name);
+        //                 cell1.innerHTML = getData.result.name;
+        //                 cell2.innerHTML = getData.result.surname;
+        //                 cell3.innerHTML = getData.result.email;
+        //                 cell4.innerHTML = getData.result.zip;
+        //                 cell5.innerHTML = getData.result.nip;
+        //                 cell6.innerHTML = getData.result.tel;
+        //             };
+        //             getData.onerror = function() {
+        //                 db.close();
+        //                 return
+        //             }
+        //         }
+
+        //         tx.oncomplete = function() {
+        //             db.close();
+        //         };
+        //     }
+        // }
     </script>
 </html>
