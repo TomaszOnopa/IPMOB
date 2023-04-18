@@ -177,78 +177,35 @@
             }
         };
 
-        // function loadData() {
-        //     for(var i = document.getElementById("clients_data_table").rows.length; i > 1;i--){
-        //         document.getElementById("clients_data_table").deleteRow(i -1);
-        //     }
+        function loadData() {
+            for(var i = document.getElementById("clients_data_table").rows.length; i > 1;i--){
+                document.getElementById("clients_data_table").deleteRow(i -1);
+            }
 
-        //     var open = indexedDB.open("DB1", 1);
+            const store = db.transaction('clients').objectStore('clients');
+            const request = store.getAll();
 
-        //     open.onupgradeneeded = function() {
-        //         var db = open.result;
-        //         var store = db.createObjectStore("Table1", {keyPath: "id"});
-        //     };
+            request.onsuccess = function(event) {
+                const data = event.target.result;
+                let table = document.getElementById("clients_data_table");
 
-        //     open.onsuccess = function() {
-        //         var db = open.result;
-        //         var tx = db.transaction("Table1", "read");
-        //         var store = tx.objectStore("Table1");
+                data.forEach(function(item) {
+                    let row = table.insertRow();
+                    let firstNameCell = row.insertCell(-1);
+                    let lastNameCell = row.insertCell();
+                    let emailCell = row.insertCell();
+                    let zipCell = row.insertCell();
+                    let nipCell = row.insertCell();
+                    let phoneCell = row.insertCell();
 
-        //         let table = document.getElementById("clients_data_table");
-                
-        //         for (let i = 0; i < 100; i++) {
-        //             var getData = store.get(i+1);
-        //             getData.onsuccess = function() {
-        //                 let row = table.insertRow(-1);
-        //                 let cell1 = row.insertCell(0);
-        //                 let cell2 = row.insertCell(1);
-        //                 let cell3 = row.insertCell(2);
-        //                 let cell4 = row.insertCell(3);
-        //                 let cell5 = row.insertCell(4);
-        //                 let cell6 = row.insertCell(5);
-
-        //                 alert(getData.result.name);
-        //                 cell1.innerHTML = getData.result.name;
-        //                 cell2.innerHTML = getData.result.surname;
-        //                 cell3.innerHTML = getData.result.email;
-        //                 cell4.innerHTML = getData.result.zip;
-        //                 cell5.innerHTML = getData.result.nip;
-        //                 cell6.innerHTML = getData.result.tel;
-        //             };
-        //             getData.onerror = function() {
-        //                 db.close();
-        //                 return
-        //             }
-        //         }
-
-        //         tx.oncomplete = function() {
-        //             db.close();
-        //         };
-        //     }
-        // }
-
-        // function saveData() {
-        //     var open = indexedDB.open("DB1", 1);
-
-        //     open.onupgradeneeded = function() {
-        //         var db = open.result;
-        //         var store = db.createObjectStore("Table1", {keyPath: "id"});
-        //     };
-
-        //     open.onsuccess = function() {
-        //         var db = open.result;
-        //         var tx = db.transaction("Table1", "write");
-        //         var store = tx.objectStore("Table1");
-
-                
-        //         for(let i = 0; i < namesList.length; i++) {
-        //             store.put({id: i+1, name: namesList[i], surname: surnamesList[i], email: emailList[i], zip: zipList[i], nip: nipList[i], tel: phoneList[i]});
-        //         }
-
-        //         tx.oncomplete = function() {
-        //             db.close();
-        //         };
-        //     }
-        // }
+                    firstNameCell.innerText = item.firstname;
+                    lastNameCell.innerText = item.lastname;
+                    emailCell.innerText = item.email;
+                    zipCell.innerText = item.zip;
+                    nipCell.innerText = item.nip;
+                    phoneCell.innerText = item.phone;
+                });
+            };
+        }
     </script>
 </html>
