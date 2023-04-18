@@ -159,7 +159,7 @@
 
         function saveData(){
             const table = document.getElementById("clients_data_table");
-            for (let i = 1; i < namesList.length; i++) {
+            for (let i = 0; i < namesList.length; i++) {
                 
                 let transaction = db.transaction(['clients'], 'readwrite');
                 let store = transaction.objectStore('clients');
