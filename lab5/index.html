@@ -137,7 +137,17 @@
 
         function deleteRow(button) {
             const row = button.parentNode.parentNode;
+
+            namesList.splice(row.rowIndex, 1);
+            surnamesList.splice(row.rowIndex, 1);
+            emailList.splice(row.rowIndex, 1);
+            zipList.splice(row.rowIndex, 1);
+            nipList.splice(row.rowIndex, 1);
+            phoneList.splice(row.rowIndex, 1);
+
             row.parentNode.removeChild(row);
+
+            console.log(namesList);
         }
 
         let db;
