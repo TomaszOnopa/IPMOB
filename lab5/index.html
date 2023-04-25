@@ -131,7 +131,8 @@
             cell4.innerHTML = zipList[zipList.length - 1];
             cell5.innerHTML = nipList[nipList.length - 1];
             cell6.innerHTML = phoneList[phoneList.length - 1];
-            cell7.innerHTML = "<button class='delete_row' >Delete</button>";
+            let rowCount = table.rows.length - 1;
+            cell7.innerHTML = "<button class='delete_row' onclick='deleteRow(" + rowCount + ")'>Delete</button>";
         }
 
         function deleteRow(rowNumber) {
