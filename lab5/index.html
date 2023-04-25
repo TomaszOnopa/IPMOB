@@ -204,6 +204,7 @@
                     let zipCell = row.insertCell();
                     let nipCell = row.insertCell();
                     let phoneCell = row.insertCell();
+                    let deleteCell = row.insertCell();
 
                     firstNameCell.innerText = item.firstname;
                     lastNameCell.innerText = item.lastname;
@@ -211,6 +212,8 @@
                     zipCell.innerText = item.zip;
                     nipCell.innerText = item.nip;
                     phoneCell.innerText = item.phone;
+                    let rowCount = table.rows.length - 1;
+                    deleteCell.innerHTML = "<button class='delete_row' onclick='deleteRow(" + rowCount + ")'>Delete</button>";
                 });
             };
         }
