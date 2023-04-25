@@ -199,6 +199,14 @@
 
                 data.forEach(function(item) {
                     let row = table.insertRow();
+
+                    namesList.push(item.firstname);
+                    surnamesList.push(item.lastname);
+                    emailList.push(item.email);
+                    zipList.push(item.zip);
+                    nipList.push(item.nip);
+                    phoneList.push(item.phone);
+
                     let firstNameCell = row.insertCell(-1);
                     let lastNameCell = row.insertCell();
                     let emailCell = row.insertCell();
