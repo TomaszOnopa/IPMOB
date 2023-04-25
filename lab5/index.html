@@ -132,11 +132,12 @@
             cell5.innerHTML = nipList[nipList.length - 1];
             cell6.innerHTML = phoneList[phoneList.length - 1];
             let rowCount = table.rows.length - 1;
-            cell7.innerHTML = "<button class='delete_row' onclick='deleteRow(" + rowCount + ")'>Delete</button>";
+            cell7.innerHTML = "<button class='delete_row' onclick='deleteRow(this)'>Delete</button>";
         }
 
-        function deleteRow(rowNumber) {
-            document.getElementById("clients_data_table").deleteRow(rowNumber);
+        function deleteRow(button) {
+            const row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
         }
 
         let db;
@@ -213,7 +214,7 @@
                     nipCell.innerText = item.nip;
                     phoneCell.innerText = item.phone;
                     let rowCount = table.rows.length - 1;
-                    deleteCell.innerHTML = "<button class='delete_row' onclick='deleteRow(" + rowCount + ")'>Delete</button>";
+                    deleteCell.innerHTML = "<button class='delete_row' onclick='deleteRow(this)'>Delete</button>";
                 });
             };
         }
