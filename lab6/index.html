@@ -151,10 +151,17 @@
         }
 
         function moveRowUp(button) {
-            console.log("Move Up");
+            const rows = document.getElementById("clients_data_table").rows;
+            
+            const row = button.parentNode.parentNode;
+            const table = row.parentNode;
+            
+            table.insertBefore(rows[row.rowIndex],rows[row.rowIndex - 1]);
+            console.log(row.rowIndex);
         }
 
         function moveRowDown(button) {
+            const row = button.parentNode.parentNode;
             console.log("Move down");
         }
 
