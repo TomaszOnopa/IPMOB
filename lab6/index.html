@@ -158,10 +158,14 @@
             const index = row.rowIndex;
             
             if (index > 1) {
-                table.insertBefore(rows[row.rowIndex], rows[row.rowIndex - 1]);
+                table.insertBefore(rows[index], rows[index - 1]);
+                swapArraysElements(index-1, index-2);
+                console.log(namesList);
             }
             else {
-                table.insertBefore(rows[row.rowIndex], rows[rows.length])
+                table.insertBefore(rows[index], rows[rows.length]);
+                shiftPushArrays()
+                console.log(namesList);
             }
         }
 
@@ -174,10 +178,78 @@
 
             if(index < rows.length -1) {
                 table.insertBefore(rows[index + 1], rows[index]);
+                swapArraysElements(index, index-1);
             }
             else {
-                table.insertBefore(rows[row.rowIndex], rows[1])
+                table.insertBefore(rows[index], rows[1]);
+                popUnshiftArrays()
             }
+        }
+
+        function swapArraysElements(a, b) {
+            let temp = namesList[a];
+            namesList[a] = namesList[b];
+            namesList[b] = temp;
+
+            temp = surnamesList[a];
+            surnamesList[a] = surnamesList[b];
+            surnamesList[b] = temp;
+
+            temp = emailList[a];
+            emailList[a] = emailList[b];
+            emailList[b] = temp;
+
+            temp = zipList[a];
+            zipList[a] = zipList[b];
+            zipList[b] = temp;
+
+            temp = nipList[a];
+            nipList[a] = nipList[b];
+            nipList[b] = temp;
+
+            temp = phoneList[a];
+            phoneList[a] = phoneList[b];
+            phoneList[b] = temp;
+        }
+
+        function shiftPushArrays() {
+            let temp = namesList.shift();
+            namesList.push(temp);
+
+            temp = surnamesList.shift();
+            surnamesList.push(temp);
+
+            temp = emailList.shift();
+            emailList.push(temp);
+
+            temp = zipList.shift();
+            zipList.push(temp);
+
+            temp = nipList.shift();
+            nipList.push(temp);
+
+            temp = phoneList.shift();
+            phoneList.push(temp);
+        }
+
+        function popUnshiftArrays() {
+            let temp = namesList.pop();
+            namesList.unshift(temp);
+
+            temp = surnamesList.pop();
+            surnamesList.unshift(temp);
+
+            temp = emailList.pop();
+            emailList.unshift(temp);
+
+            temp = zipList.pop();
+            zipList.unshift(temp);
+
+            temp = nipList.pop();
+            nipList.unshift(temp);
+
+            temp = phoneList.pop();
+            phoneList.unshift(temp);
         }
 
         let db;
@@ -262,7 +334,7 @@
                     nipCell.innerText = item.nip;
                     phoneCell.innerText = item.phone;
                     let rowCount = table.rows.length - 1;
-                    deleteCell.innerHTML = "<button class='delete_row' onclick='deleteRow(this)'>Delete</button>";
+                    deleteCell.innerHTML = "<button class='delete_row' onclick='deleteRow(this)'>Delete</button><button class='move_up' onclick='moveRowUp(this)'>Up</button><button class='move_down' onclick='moveRowDown(this)'>Down</button>";
                 });
             };
         }
