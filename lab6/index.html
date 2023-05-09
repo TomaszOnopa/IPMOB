@@ -132,7 +132,7 @@
             cell5.innerHTML = nipList[nipList.length - 1];
             cell6.innerHTML = phoneList[phoneList.length - 1];
             let rowCount = table.rows.length - 1;
-            cell7.innerHTML = "<button class='delete_row' onclick='deleteRow(this)'>Delete</button><button class='move_up'>Up</button><button class='move_down'>Down</button>";
+            cell7.innerHTML = "<button class='delete_row' onclick='deleteRow(this)'>Delete</button><button class='move_up' onclick='moveRowUp(this)'>Up</button><button class='move_down' onclick='moveRowDown(this)'>Down</button>";
         }
 
         function deleteRow(button) {
@@ -148,6 +148,14 @@
             row.parentNode.removeChild(row);
 
             console.log(namesList);
+        }
+
+        function moveRowUp(button) {
+            console.log("Move Up");
+        }
+
+        function moveRowDown(button) {
+            console.log("Move down");
         }
 
         let db;
