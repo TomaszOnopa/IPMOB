@@ -155,9 +155,14 @@
             
             const row = button.parentNode.parentNode;
             const table = row.parentNode;
+            const index = row.rowIndex;
             
-            table.insertBefore(rows[row.rowIndex],rows[row.rowIndex - 1]);
-            console.log(row.rowIndex);
+            if (index > 1) {
+                table.insertBefore(rows[row.rowIndex], rows[row.rowIndex - 1]);
+            }
+            else {
+                table.insertBefore(rows[row.rowIndex], rows[rows.length])
+            }
         }
 
         function moveRowDown(button) {
@@ -165,9 +170,14 @@
 
             const row = button.parentNode.parentNode;
             const table = row.parentNode;
+            const index = row.rowIndex;
 
-            table.insertBefore(rows[row.rowIndex + 1],rows[row.rowIndex]);
-            console.log("Move down");
+            if(index < rows.length -1) {
+                table.insertBefore(rows[index + 1], rows[index]);
+            }
+            else {
+                table.insertBefore(rows[row.rowIndex], rows[1])
+            }
         }
 
         let db;
