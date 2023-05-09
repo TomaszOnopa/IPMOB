@@ -161,7 +161,12 @@
         }
 
         function moveRowDown(button) {
+            const rows = document.getElementById("clients_data_table").rows;
+
             const row = button.parentNode.parentNode;
+            const table = row.parentNode;
+
+            table.insertBefore(rows[row.rowIndex + 1],rows[row.rowIndex]);
             console.log("Move down");
         }
 
