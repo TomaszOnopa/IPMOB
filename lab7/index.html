@@ -221,8 +221,8 @@
             emailList[currentEdit] = document.getElementById("email").value;
             phoneList[currentEdit] = document.getElementById("phone").value;
 
-            saveData();
-            loadData();
+            const row = document.getElementById("clients_data_table").rows[currentEdit+1];
+            row.innerHTML = '<td>'+namesList[currentEdit]+'</td><td>'+surnamesList[currentEdit]+'</td><td>'+emailList[currentEdit]+'</td><td>'+zipList[currentEdit]+'</td><td>'+nipList[currentEdit]+'</td><td>'+phoneList[currentEdit]+'</td><td><button class="delete_row" onclick="deleteRow(this)">Delete</button><button class="move_up" onclick="moveRowUp(this)">Up</button><button class="move_down" onclick="moveRowDown(this)">Down</button><button class="edit_row" onclick="editData(this)">Edytuj</button></td>'
 
             document.getElementById("accept").setAttribute('disabled', '');
             currentEdit = null;
