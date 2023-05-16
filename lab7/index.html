@@ -139,6 +139,9 @@
                 "<button class='move_up' onclick='moveRowUp(this)'>Up</button>" +
                 "<button class='move_down' onclick='moveRowDown(this)'>Down</button>" +
                 "<button class='edit_row' onclick='editData(this)'>Edytuj</button>";
+
+            document.getElementById("accept").setAttribute('disabled', '');
+            currentEdit = null;
         }
 
         function deleteRow(button) {
@@ -221,6 +224,7 @@
             saveData();
             loadData();
 
+            document.getElementById("accept").setAttribute('disabled', '');
             currentEdit = null;
         }
 
