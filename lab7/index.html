@@ -75,6 +75,8 @@
     </body>
 
     <script>
+        let currentEdit = null;
+
         let namesList = Array()
         let surnamesList = Array()
         let emailList = Array()
@@ -136,7 +138,7 @@
             cell7.innerHTML = "<button class='delete_row' onclick='deleteRow(this)'>Delete</button>" +
                 "<button class='move_up' onclick='moveRowUp(this)'>Up</button>" +
                 "<button class='move_down' onclick='moveRowDown(this)'>Down</button>" +
-                "<button class='edit_row'>Edytuj</button>";
+                "<button class='edit_row' onclick='editData(this)'>Edytuj</button>";
         }
 
         function deleteRow(button) {
@@ -188,6 +190,24 @@
                 table.insertBefore(rows[index], rows[1]);
                 popUnshiftArrays()
             }
+        }
+
+        function editData(button) {
+            document.getElementById("accept").removeAttribute('disabled');
+
+            currentEdit = button.parentNode.parentNode.rowIndex-1;
+
+            document.getElementById("firstname").value = namesList[currentEdit];
+            document.getElementById("lastname").value = surnamesList[currentEdit];
+            document.getElementById("zip").value = zipList[currentEdit];
+            document.getElementById("nip").value = nipList[currentEdit];
+            document.getElementById("ipv4").value = "";
+            document.getElementById("webpage").value = "";
+            document.getElementById("email").value = emailList[currentEdit];
+            document.getElementById("winpath1").value = "";
+            document.getElementById("winpath2").value = "";
+            document.getElementById("linuxpath").value = "";
+            document.getElementById("phone").value = phoneList[currentEdit];
         }
 
         function swapArraysElements(a, b) {
@@ -341,7 +361,7 @@
                     deleteCell.innerHTML = "<button class='delete_row' onclick='deleteRow(this)'>Delete</button>"+
                     "<button class='move_up' onclick='moveRowUp(this)'>Up</button>"+
                     "<button class='move_down' onclick='moveRowDown(this)'>Down</button>"+
-                    "<button class='edit_row'>Edytuj</button>";
+                    "<button class='edit_row' onclick='editData(this)'>Edytuj</button>";
                 });
             };
         }
