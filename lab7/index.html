@@ -55,7 +55,7 @@
             <button id="add_data" onclick="addToTable()">Dodaj</button>
             <button id="save_data" onclick="saveData()">Zapisz</button>
             <button id="load_data" onclick="loadData()">Wczytaj</button>
-            <button id="accept" disabled="true">Akceptuj</button>
+            <button id="accept" onclick="confirmEdit()" disabled="true">Akceptuj</button>
         </div>
         
         <div class="div1">
@@ -208,6 +208,20 @@
             document.getElementById("winpath2").value = "";
             document.getElementById("linuxpath").value = "";
             document.getElementById("phone").value = phoneList[currentEdit];
+        }
+
+        function confirmEdit() {
+            namesList[currentEdit] = document.getElementById("firstname").value;
+            surnamesList[currentEdit] = document.getElementById("lastname").value;
+            zipList[currentEdit] = document.getElementById("zip").value;
+            nipList[currentEdit] = document.getElementById("nip").value;
+            emailList[currentEdit] = document.getElementById("email").value;
+            phoneList[currentEdit] = document.getElementById("phone").value;
+
+            saveData();
+            loadData();
+
+            currentEdit = null;
         }
 
         function swapArraysElements(a, b) {
