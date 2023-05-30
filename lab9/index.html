@@ -395,7 +395,7 @@
         function searchTable() {
             var input, filter, table, tr, td, i, txtValue;
             input = document.getElementById("search");
-            filter = input.value.toUpperCase();
+            filter = input.value.toUpperCase().split(" ");
             table = document.getElementById("clients_data_table");
             tr = table.getElementsByTagName("tr");
             for (i = 0; i < tr.length; i++) {
@@ -404,9 +404,11 @@
                     td = tr[i].getElementsByTagName("td")[j];
                     if (td) {
                     txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                        flag = true;
+                    for (ii = 0; ii < filter.length; ii++) {
+                        if (txtValue.toUpperCase().indexOf(filter[ii]) > -1) {
+                            tr[i].style.display = "";
+                            flag = true;
+                        }
                     }
                 }
                 if (!flag) {
