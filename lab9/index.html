@@ -398,7 +398,7 @@
             filter = input.value.toUpperCase().split(" ");
             table = document.getElementById("clients_data_table");
             tr = table.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
+            for (i = 1; i < tr.length; i++) {
                 let flag = false;
                 for (j = 0; j < 6; j++) {
                     td = tr[i].getElementsByTagName("td")[j];
