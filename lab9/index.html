@@ -399,22 +399,26 @@
             table = document.getElementById("clients_data_table");
             tr = table.getElementsByTagName("tr");
             for (i = 1; i < tr.length; i++) {
-                let flag = false;
-                for (j = 0; j < 6; j++) {
-                    td = tr[i].getElementsByTagName("td")[j];
-                    if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    for (ii = 0; ii < filter.length; ii++) {
-                        if (txtValue.toUpperCase().indexOf(filter[ii]) > -1) {
-                            tr[i].style.display = "";
-                            flag = true;
+                let flag2 = true;
+                for (ii = 0; ii < filter.length; ii++) {
+                    let flag = false;
+                    for (j = 0; j < 6; j++) {
+                        td = tr[i].getElementsByTagName("td")[j];
+                        if (td) {
+                            txtValue = td.textContent || td.innerText;
+                            if (txtValue.toUpperCase().indexOf(filter[ii]) > -1) {
+                                tr[i].style.display = "";
+                                flag = true;
+                            }
                         }
                     }
+                    if (!flag) {
+                        flag2 = false;
+                    }
                 }
-                if (!flag) {
+                if (!flag2) {
                     tr[i].style.display = "none";
                 }
-                }       
             }
         }
     </script>
