@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html>
+    <style>
+        input:invalid {
+            background-color: ivory;
+            border: none;
+            outline: 2px solid red;
+            border-radius: 5px;
+        }
+        table, td, th {
+            border-collapse: collapse;
+            border: 1px solid;
+        }
+        tr:nth-child(even) {
+            background-color: rgb(225, 225, 255);
+        }
+        tr:nth-child(odd) {
+            background-color: rgb(200, 200, 245);
+        }
+        body {
+            display: grid;
+        }
+        .div1 {
+            display: grid;
+            justify-content: center;
+        }
+    </style>
+    <body>
+        <div class="div1">
+            <input type="text" id="firstname" placeholder="Imie" required pattern="[A-Za-z]{2,}">
+            <br>
+            <input type="text" id="lastname" placeholder="Nazwisko" required pattern="[A-Za-z]{2,}">
+            <br>
+            <input type="text" id="zip" placeholder="Kod pocztowy" required pattern="[0-9]{2}-[0-9]{3}">
+            <br>
+            <input type="text" id="nip" placeholder="Numer Nip" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}">
+            <br>
+            <input type="text" id="ipv4" placeholder="adres ipv4" required pattern="((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$">
+            <br>
+            <input type="url" id="webpage" placeholder="strona www" required>
+            <br>
+            <input type="email" id="email" placeholder="email" required>
+            <br>
+            <input type="text" id="winpath1" placeholder="scieżka windows lowercase" required pattern="^([a-z]:\\)(windows|winnt|win|dos|msdos)(\\[a-z0-9]+){0,}$">
+            <br>
+            <input type="text" id="winpath2" placeholder="ścieżka windows allcase" required>
+            <br>
+            <input type="text" id="linuxpath" placeholder="linux path" required pattern="^(\/etc)(\/[A-Za-z0-9]+){0,}$">
+            <br>
+            <input type="tel" id="phone" placeholder="numer telefonu" required pattern="[0-9]{9}">
+        </div>
+        <div>
+            <button id="generate" onclick="generate()">Generuj</button>
+            <button id="add_data" onclick="addToTable()">Dodaj</button>
+            <button id="save_data" onclick="saveData()">Zapisz</button>
+            <button id="load_data" onclick="loadData()">Wczytaj</button>
+            <button id="accept" onclick="confirmEdit()" disabled="true">Akceptuj</button>
+        </div>
+        <div>
+            <input type="text" id="search" placeholder="Wyszukaj" onkeyup="searchTable()">
+        </div>
+        <div class="div1">
+            <table id="clients_data_table">
+                <tr>
+                  <th>Imie</th>
+                  <th>Nazwisko</th>
+                  <th>Email</th>
+                  <th>Kod pocztowy</th>
+                  <th>NIP</th>
+                  <th>Telefon</th>
+                  <th>Akcje</th>
+                </tr>
+            </table> 
+        </div>
+        
+    </body>
+
+    <script>
+        let currentEdit = null;
+
+        let namesList = Array()
+        let surnamesList = Array()
+        let emailList = Array()
+        let zipList = Array()
+        let nipList = Array()
+        let phoneList = Array()
+
+        function generate() {
+            const names = Array("Jan", "Anna", "Tadeusz", "Szymon", "Tomasz")
+            const surnames = Array("Wojcik", "Wasik", "Nowak", "Mazur", "Krawczyk")
+            const zip = Array("11-999", "22-999", "11-111", "11-123", "34-963")
+            const nip = Array("123-111-12-12", "123-222-12-00", "123-432-12-37", "123-333-12-88", "123-444-12-99")
+            const ipv4 = Array("192.168.0.1", "0.0.0.0", "192.168.64.2", "255.255.255.0", "10.10.10.1")
+            const webpage = Array("https://www.jan.pl", "https://www.nowak.pl", "https://www.dff.pl", "https://www.janusz.pl", "https://www.tomasz.pl")
+            const email = Array("jan@example.com", "nowak@example.com", "dff@example.com", "jm@example.com", "tomasz@example.com")
+            const winpath1 = Array("c:\\windows\\temp", "d:\\msdos", "e:\\dos", "c:\\winnt\\temp", "c:\\win\\temp")
+            const winpath2 = Array("c:\\WiNdOwS\\temp", "d:\\msDos", "e:\\DOS", "C:\\winnt\\temp", "c:\\win\\TemP")
+            const linuxpath = Array("/etc/passwd", "/etc/hosts", "/etc/a", "/etc/b", "/etc/c")
+            const phone = Array("123456789", "125556789", "199999999", "186123099", "000777999")
+
+            document.getElementById("firstname").value = names[Math.floor(Math.random()*names.length)];
+            document.getElementById("lastname").value = surnames[Math.floor(Math.random()*surnames.length)];
+            document.getElementById("zip").value = zip[Math.floor(Math.random()*zip.length)];
+            document.getElementById("nip").value = nip[Math.floor(Math.random()*nip.length)];
+            document.getElementById("ipv4").value = ipv4[Math.floor(Math.random()*ipv4.length)];
+            document.getElementById("webpage").value = webpage[Math.floor(Math.random()*webpage.length)];
+            document.getElementById("email").value = email[Math.floor(Math.random()*email.length)];
+            document.getElementById("winpath1").value = winpath1[Math.floor(Math.random()*winpath1.length)];
+            document.getElementById("winpath2").value = winpath2[Math.floor(Math.random()*winpath2.length)];
+            document.getElementById("linuxpath").value = linuxpath[Math.floor(Math.random()*linuxpath.length)];
+            document.getElementById("phone").value = phone[Math.floor(Math.random()*phone.length)];
+        }
+
+        function addToTable() {
+            namesList.push(document.getElementById("firstname").value);
+            surnamesList.push(document.getElementById("lastname").value);
+            emailList.push(document.getElementById("email").value);
+            zipList.push(document.getElementById("zip").value);
+            nipList.push(document.getElementById("nip").value);
+            phoneList.push(document.getElementById("phone").value);
+
+            let table = document.getElementById("clients_data_table");
+            let row = table.insertRow(-1);
+            let cell1 = row.insertCell(0);
+            let cell2 = row.insertCell(1);
+            let cell3 = row.insertCell(2);
+            let cell4 = row.insertCell(3);
+            let cell5 = row.insertCell(4);
+            let cell6 = row.insertCell(5);
+            let cell7 = row.insertCell(6);
+            
+            cell1.innerHTML = namesList[namesList.length - 1];
+            cell2.innerHTML = surnamesList[surnamesList.length - 1];
+            cell3.innerHTML = emailList[emailList.length - 1];
+            cell4.innerHTML = zipList[zipList.length - 1];
+            cell5.innerHTML = nipList[nipList.length - 1];
+            cell6.innerHTML = phoneList[phoneList.length - 1];
+            let rowCount = table.rows.length - 1;
+            cell7.innerHTML = "<button class='delete_row' onclick='deleteRow(this)'>Delete</button>" +
+                "<button class='move_up' onclick='moveRowUp(this)'>Up</button>" +
+                "<button class='move_down' onclick='moveRowDown(this)'>Down</button>" +
+                "<button class='edit_row' onclick='editData(this)'>Edytuj</button>";
+
+            document.getElementById("accept").setAttribute('disabled', '');
+            currentEdit = null;
+        }
+
+        function deleteRow(button) {
+            const row = button.parentNode.parentNode;
+
+            namesList.splice(row.rowIndex, 1);
+            surnamesList.splice(row.rowIndex, 1);
+            emailList.splice(row.rowIndex, 1);
+            zipList.splice(row.rowIndex, 1);
+            nipList.splice(row.rowIndex, 1);
+            phoneList.splice(row.rowIndex, 1);
+
+            row.parentNode.removeChild(row);
+
+            console.log(namesList);
+        }
+
+        function moveRowUp(button) {
+            const rows = document.getElementById("clients_data_table").rows;
+            
+            const row = button.parentNode.parentNode;
+            const table = row.parentNode;
+            const index = row.rowIndex;
+            
+            if (index > 1) {
+                table.insertBefore(rows[index], rows[index - 1]);
+                swapArraysElements(index-1, index-2);
+                console.log(namesList);
+            }
+            else {
+                table.insertBefore(rows[index], rows[rows.length]);
+                shiftPushArrays()
+                console.log(namesList);
+            }
+        }
+
+        function moveRowDown(button) {
+            const rows = document.getElementById("clients_data_table").rows;
+
+            const row = button.parentNode.parentNode;
+            const table = row.parentNode;
+            const index = row.rowIndex;
+
+            if(index < rows.length -1) {
+                table.insertBefore(rows[index + 1], rows[index]);
+                swapArraysElements(index, index-1);
+            }
+            else {
+                table.insertBefore(rows[index], rows[1]);
+                popUnshiftArrays()
+            }
+        }
+
+        function editData(button) {
+            document.getElementById("accept").removeAttribute('disabled');
+
+            currentEdit = button.parentNode.parentNode.rowIndex-1;
+
+            document.getElementById("firstname").value = namesList[currentEdit];
+            document.getElementById("lastname").value = surnamesList[currentEdit];
+            document.getElementById("zip").value = zipList[currentEdit];
+            document.getElementById("nip").value = nipList[currentEdit];
+            document.getElementById("ipv4").value = "";
+            document.getElementById("webpage").value = "";
+            document.getElementById("email").value = emailList[currentEdit];
+            document.getElementById("winpath1").value = "";
+            document.getElementById("winpath2").value = "";
+            document.getElementById("linuxpath").value = "";
+            document.getElementById("phone").value = phoneList[currentEdit];
+        }
+
+        function confirmEdit() {
+            namesList[currentEdit] = document.getElementById("firstname").value;
+            surnamesList[currentEdit] = document.getElementById("lastname").value;
+            zipList[currentEdit] = document.getElementById("zip").value;
+            nipList[currentEdit] = document.getElementById("nip").value;
+            emailList[currentEdit] = document.getElementById("email").value;
+            phoneList[currentEdit] = document.getElementById("phone").value;
+
+            const row = document.getElementById("clients_data_table").rows[currentEdit+1];
+            row.innerHTML = '<td>'+namesList[currentEdit]+'</td><td>'+surnamesList[currentEdit]+'</td><td>'+emailList[currentEdit]+'</td><td>'+zipList[currentEdit]+'</td><td>'+nipList[currentEdit]+'</td><td>'+phoneList[currentEdit]+'</td><td><button class="delete_row" onclick="deleteRow(this)">Delete</button><button class="move_up" onclick="moveRowUp(this)">Up</button><button class="move_down" onclick="moveRowDown(this)">Down</button><button class="edit_row" onclick="editData(this)">Edytuj</button></td>'
+
+            document.getElementById("accept").setAttribute('disabled', '');
+            currentEdit = null;
+        }
+
+        function swapArraysElements(a, b) {
+            let temp = namesList[a];
+            namesList[a] = namesList[b];
+            namesList[b] = temp;
+
+            temp = surnamesList[a];
+            surnamesList[a] = surnamesList[b];
+            surnamesList[b] = temp;
+
+            temp = emailList[a];
+            emailList[a] = emailList[b];
+            emailList[b] = temp;
+
+            temp = zipList[a];
+            zipList[a] = zipList[b];
+            zipList[b] = temp;
+
+            temp = nipList[a];
+            nipList[a] = nipList[b];
+            nipList[b] = temp;
+
+            temp = phoneList[a];
+            phoneList[a] = phoneList[b];
+            phoneList[b] = temp;
+        }
+
+        function shiftPushArrays() {
+            let temp = namesList.shift();
+            namesList.push(temp);
+
+            temp = surnamesList.shift();
+            surnamesList.push(temp);
+
+            temp = emailList.shift();
+            emailList.push(temp);
+
+            temp = zipList.shift();
+            zipList.push(temp);
+
+            temp = nipList.shift();
+            nipList.push(temp);
+
+            temp = phoneList.shift();
+            phoneList.push(temp);
+        }
+
+        function popUnshiftArrays() {
+            let temp = namesList.pop();
+            namesList.unshift(temp);
+
+            temp = surnamesList.pop();
+            surnamesList.unshift(temp);
+
+            temp = emailList.pop();
+            emailList.unshift(temp);
+
+            temp = zipList.pop();
+            zipList.unshift(temp);
+
+            temp = nipList.pop();
+            nipList.unshift(temp);
+
+            temp = phoneList.pop();
+            phoneList.unshift(temp);
+        }
+
+        let db;
+        let request = indexedDB.open('DB1', 911);
+
+        request.onupgradeneeded = (event) => {
+            let db = event.target.result;
+            let store = db.createObjectStore('clients', { keyPath: 'id', autoIncrement:true });
+            store.createIndex('firstname', 'firstname', { unique: false });
+            store.createIndex('lastname', 'lastname', { unique: false });
+            store.createIndex('email', 'email', { unique: false });
+            store.createIndex('zip', 'zip', { unique: false });
+            store.createIndex('nip', 'nip', { unique: false });
+            store.createIndex('phone', 'phone', { unique: false });
+            console.log("Tworzenie db");
+        };
+
+        request.onsuccess = function(event) {
+            db = event.target.result;
+            console.log("Sukces");
+        };
+        request.onerror = function(event) {
+            console.log(event.target.error);
+        }
+
+        function saveData(){
+            clearDBData("clients");
+
+            const table = document.getElementById("clients_data_table");
+            for (let i = 0; i < namesList.length; i++) {
+                
+                let transaction = db.transaction(['clients'], 'readwrite');
+                let store = transaction.objectStore('clients');
+
+
+                let client = {
+                    firstname: namesList[i],
+                    lastname: surnamesList[i],
+                    email: emailList[i],
+                    zip: zipList[i],
+                    nip: nipList[i],
+                    phone: phoneList[i],
+                };
+                let request = store.add(client);
+            }
+        };
+
+        function loadData() {
+            for(var i = document.getElementById("clients_data_table").rows.length; i > 1;i--){
+                document.getElementById("clients_data_table").deleteRow(i -1);
+            }
+
+            const store = db.transaction('clients').objectStore('clients');
+            const request = store.getAll();
+
+            request.onsuccess = function(event) {
+                const data = event.target.result;
+                let table = document.getElementById("clients_data_table");
+
+                data.forEach(function(item) {
+                    let row = table.insertRow();
+
+                    namesList.push(item.firstname);
+                    surnamesList.push(item.lastname);
+                    emailList.push(item.email);
+                    zipList.push(item.zip);
+                    nipList.push(item.nip);
+                    phoneList.push(item.phone);
+
+                    let firstNameCell = row.insertCell(-1);
+                    let lastNameCell = row.insertCell();
+                    let emailCell = row.insertCell();
+                    let zipCell = row.insertCell();
+                    let nipCell = row.insertCell();
+                    let phoneCell = row.insertCell();
+                    let deleteCell = row.insertCell();
+
+                    firstNameCell.innerText = item.firstname;
+                    lastNameCell.innerText = item.lastname;
+                    emailCell.innerText = item.email;
+                    zipCell.innerText = item.zip;
+                    nipCell.innerText = item.nip;
+                    phoneCell.innerText = item.phone;
+                    let rowCount = table.rows.length - 1;
+                    deleteCell.innerHTML = "<button class='delete_row' onclick='deleteRow(this)'>Delete</button>"+
+                    "<button class='move_up' onclick='moveRowUp(this)'>Up</button>"+
+                    "<button class='move_down' onclick='moveRowDown(this)'>Down</button>"+
+                    "<button class='edit_row' onclick='editData(this)'>Edytuj</button>";
+                });
+            };
+        }
+
+        function clearDBData(storeName) {
+            const transaction = db.transaction(storeName, "readwrite");
+            const objectStore = transaction.objectStore(storeName);
+            const objectStoreRequest = objectStore.clear();
+        }
+
+        function searchTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("search");
+            filter = input.value.toUpperCase().split(" ");
+            table = document.getElementById("clients_data_table");
+            tr = table.getElementsByTagName("tr");
+            for (i = 1; i < tr.length; i++) {
+                let flag2 = true;
+                for (ii = 0; ii < filter.length; ii++) {
+                    let flag = false;
+                    for (j = 0; j < 6; j++) {
+                        td = tr[i].getElementsByTagName("td")[j];
+                        if (td) {
+                            txtValue = td.textContent || td.innerText;
+                            if (txtValue.toUpperCase().indexOf(filter[ii]) > -1) {
+                                tr[i].style.display = "";
+                                flag = true;
+                            }
+                        }
+                    }
+                    if (!flag) {
+                        flag2 = false;
+                    }
+                }
+                if (!flag2) {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</html>
