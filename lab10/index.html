@@ -323,5 +323,12 @@
                 }
             }
         }
+
+        function addFruit() {
+            const select = document.getElementById("fruitsList");
+            const option = document.createElement("option");
+            option.text = document.getElementById("fruitName").value;
+            select.add(option);
+        }
     </script>
 </html>
