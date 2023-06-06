@@ -79,13 +79,6 @@
     <script>
         let currentEdit = null;
 
-        let namesList = Array()
-        let surnamesList = Array()
-        let emailList = Array()
-        let zipList = Array()
-        let nipList = Array()
-        let phoneList = Array()
-
         function generate() {
             const names = Array("Jan", "Anna", "Tadeusz", "Szymon", "Tomasz")
             const surnames = Array("Wojcik", "Wasik", "Nowak", "Mazur", "Krawczyk")
@@ -113,13 +106,6 @@
         }
 
         function addToTable() {
-            namesList.push(document.getElementById("firstname").value);
-            surnamesList.push(document.getElementById("lastname").value);
-            emailList.push(document.getElementById("email").value);
-            zipList.push(document.getElementById("zip").value);
-            nipList.push(document.getElementById("nip").value);
-            phoneList.push(document.getElementById("phone").value);
-
             let table = document.getElementById("clients_data_table");
             let row = table.insertRow(-1);
             let cell1 = row.insertCell(0);
@@ -130,12 +116,12 @@
             let cell6 = row.insertCell(5);
             let cell7 = row.insertCell(6);
             
-            cell1.innerHTML = namesList[namesList.length - 1];
-            cell2.innerHTML = surnamesList[surnamesList.length - 1];
-            cell3.innerHTML = emailList[emailList.length - 1];
-            cell4.innerHTML = zipList[zipList.length - 1];
-            cell5.innerHTML = nipList[nipList.length - 1];
-            cell6.innerHTML = phoneList[phoneList.length - 1];
+            cell1.innerHTML = document.getElementById("firstname").value;
+            cell2.innerHTML = document.getElementById("lastname").value;
+            cell3.innerHTML = document.getElementById("email").value;
+            cell4.innerHTML = document.getElementById("zip").value;
+            cell5.innerHTML = document.getElementById("nip").value;
+            cell6.innerHTML = document.getElementById("phone").value;
             let rowCount = table.rows.length - 1;
             cell7.innerHTML = "<button class='delete_row' onclick='deleteRow(this)'>Delete</button>" +
                 "<button class='move_up' onclick='moveRowUp(this)'>Up</button>" +
@@ -149,16 +135,7 @@
         function deleteRow(button) {
             const row = button.parentNode.parentNode;
 
-            namesList.splice(row.rowIndex, 1);
-            surnamesList.splice(row.rowIndex, 1);
-            emailList.splice(row.rowIndex, 1);
-            zipList.splice(row.rowIndex, 1);
-            nipList.splice(row.rowIndex, 1);
-            phoneList.splice(row.rowIndex, 1);
-
             row.parentNode.removeChild(row);
-
-            console.log(namesList);
         }
 
         function moveRowUp(button) {
@@ -170,13 +147,9 @@
             
             if (index > 1) {
                 table.insertBefore(rows[index], rows[index - 1]);
-                swapArraysElements(index-1, index-2);
-                console.log(namesList);
             }
             else {
                 table.insertBefore(rows[index], rows[rows.length]);
-                shiftPushArrays()
-                console.log(namesList);
             }
         }
 
@@ -189,111 +162,40 @@
 
             if(index < rows.length -1) {
                 table.insertBefore(rows[index + 1], rows[index]);
-                swapArraysElements(index, index-1);
             }
             else {
                 table.insertBefore(rows[index], rows[1]);
-                popUnshiftArrays()
             }
         }
 
         function editData(button) {
             document.getElementById("accept").removeAttribute('disabled');
 
-            currentEdit = button.parentNode.parentNode.rowIndex-1;
+            const row = button.parentNode.parentNode;
+            currentEdit = row.rowIndex-1;
 
-            document.getElementById("firstname").value = namesList[currentEdit];
-            document.getElementById("lastname").value = surnamesList[currentEdit];
-            document.getElementById("zip").value = zipList[currentEdit];
-            document.getElementById("nip").value = nipList[currentEdit];
+            document.getElementById("firstname").value = row.children[0].innerText;
+            document.getElementById("lastname").value = row.children[1].innerText;
+            document.getElementById("zip").value = row.children[3].innerText;
+            document.getElementById("nip").value = row.children[4].innerText;
             document.getElementById("ipv4").value = "";
             document.getElementById("webpage").value = "";
-            document.getElementById("email").value = emailList[currentEdit];
+            document.getElementById("email").value = row.children[2].innerText;
             document.getElementById("winpath1").value = "";
             document.getElementById("winpath2").value = "";
             document.getElementById("linuxpath").value = "";
-            document.getElementById("phone").value = phoneList[currentEdit];
+            document.getElementById("phone").value = row.children[5].innerText;
         }
 
         function confirmEdit() {
-            namesList[currentEdit] = document.getElementById("firstname").value;
-            surnamesList[currentEdit] = document.getElementById("lastname").value;
-            zipList[currentEdit] = document.getElementById("zip").value;
-            nipList[currentEdit] = document.getElementById("nip").value;
-            emailList[currentEdit] = document.getElementById("email").value;
-            phoneList[currentEdit] = document.getElementById("phone").value;
-
             const row = document.getElementById("clients_data_table").rows[currentEdit+1];
-            row.innerHTML = '<td>'+namesList[currentEdit]+'</td><td>'+surnamesList[currentEdit]+'</td><td>'+emailList[currentEdit]+'</td><td>'+zipList[currentEdit]+'</td><td>'+nipList[currentEdit]+'</td><td>'+phoneList[currentEdit]+'</td><td><button class="delete_row" onclick="deleteRow(this)">Delete</button><button class="move_up" onclick="moveRowUp(this)">Up</button><button class="move_down" onclick="moveRowDown(this)">Down</button><button class="edit_row" onclick="editData(this)">Edytuj</button></td>'
+            row.innerHTML = '<td>'+document.getElementById("firstname").value+'</td><td>'+document.getElementById("lastname").value
+                +'</td><td>'+document.getElementById("email").value+'</td><td>'+document.getElementById("zip").value
+                +'</td><td>'+document.getElementById("nip").value+'</td><td>'+document.getElementById("phone").value
+                +'</td><td><button class="delete_row" onclick="deleteRow(this)">Delete</button><button class="move_up" onclick="moveRowUp(this)">Up</button><button class="move_down" onclick="moveRowDown(this)">Down</button><button class="edit_row" onclick="editData(this)">Edytuj</button></td>'
 
             document.getElementById("accept").setAttribute('disabled', '');
             currentEdit = null;
-        }
-
-        function swapArraysElements(a, b) {
-            let temp = namesList[a];
-            namesList[a] = namesList[b];
-            namesList[b] = temp;
-
-            temp = surnamesList[a];
-            surnamesList[a] = surnamesList[b];
-            surnamesList[b] = temp;
-
-            temp = emailList[a];
-            emailList[a] = emailList[b];
-            emailList[b] = temp;
-
-            temp = zipList[a];
-            zipList[a] = zipList[b];
-            zipList[b] = temp;
-
-            temp = nipList[a];
-            nipList[a] = nipList[b];
-            nipList[b] = temp;
-
-            temp = phoneList[a];
-            phoneList[a] = phoneList[b];
-            phoneList[b] = temp;
-        }
-
-        function shiftPushArrays() {
-            let temp = namesList.shift();
-            namesList.push(temp);
-
-            temp = surnamesList.shift();
-            surnamesList.push(temp);
-
-            temp = emailList.shift();
-            emailList.push(temp);
-
-            temp = zipList.shift();
-            zipList.push(temp);
-
-            temp = nipList.shift();
-            nipList.push(temp);
-
-            temp = phoneList.shift();
-            phoneList.push(temp);
-        }
-
-        function popUnshiftArrays() {
-            let temp = namesList.pop();
-            namesList.unshift(temp);
-
-            temp = surnamesList.pop();
-            surnamesList.unshift(temp);
-
-            temp = emailList.pop();
-            emailList.unshift(temp);
-
-            temp = zipList.pop();
-            zipList.unshift(temp);
-
-            temp = nipList.pop();
-            nipList.unshift(temp);
-
-            temp = phoneList.pop();
-            phoneList.unshift(temp);
         }
 
         let db;
@@ -323,19 +225,18 @@
             clearDBData("clients");
 
             const table = document.getElementById("clients_data_table");
-            for (let i = 0; i < namesList.length; i++) {
+            for (let i = 1; i < table.rows.length; i++) {
                 
                 let transaction = db.transaction(['clients'], 'readwrite');
                 let store = transaction.objectStore('clients');
 
-
                 let client = {
-                    firstname: namesList[i],
-                    lastname: surnamesList[i],
-                    email: emailList[i],
-                    zip: zipList[i],
-                    nip: nipList[i],
-                    phone: phoneList[i],
+                    firstname: table.rows[i].children[0].innerText,
+                    lastname: table.rows[i].children[1].innerText,
+                    email: table.rows[i].children[2].innerText,
+                    zip: table.rows[i].children[3].innerText,
+                    nip: table.rows[i].children[4].innerText,
+                    phone: table.rows[i].children[5].innerText,
                 };
                 let request = store.add(client);
             }
@@ -355,13 +256,6 @@
 
                 data.forEach(function(item) {
                     let row = table.insertRow();
-
-                    namesList.push(item.firstname);
-                    surnamesList.push(item.lastname);
-                    emailList.push(item.email);
-                    zipList.push(item.zip);
-                    nipList.push(item.nip);
-                    phoneList.push(item.phone);
 
                     let firstNameCell = row.insertCell(-1);
                     let lastNameCell = row.insertCell();
