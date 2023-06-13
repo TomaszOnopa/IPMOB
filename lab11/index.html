@@ -331,5 +331,10 @@
             option.text = document.getElementById("fruitName").value;
             select.add(option);
         }
+
+        function removeFruit() {
+            const select = document.getElementById("fruitsList");
+            select.remove(select.selectedIndex);
+        }
     </script>
 </html>
